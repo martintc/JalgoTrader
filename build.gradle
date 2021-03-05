@@ -1,0 +1,32 @@
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+repositories {
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+dependencies {
+    compile group: 'org.json', name : 'json', version: '20200518'
+    implementation group: 'net.jacobpeterson', name: 'alpaca-java', version: '7.0'
+}
+
+// mainClassName = 'Jalgo'
+
+task runJalgo (type: JavaExec) {
+    group 'jalgo'
+    description 'Main entry point of jalgo'
+
+    classpath = sourceSets.main.runtimeClasspath
+
+    main = 'Jalgo.Jalgo'
+
+    if (project.hasProperty("config")) {
+        args(project.getProperty('config'));
+    }
+
+}
