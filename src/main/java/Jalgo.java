@@ -53,4 +53,11 @@ public class Jalgo {
         }
         return null;
     }
+
+    private static void printAccountOverview (Account account) {
+        System.out.print("\tCase: ");
+        System.out.print(account.getCash() + "\n");
+        System.out.print("\tPortfolio value: ");
+        System.out.print(account.getPortfolioValue() + "\n");
+    }
 }
