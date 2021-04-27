@@ -1,5 +1,5 @@
 # JalgoTrader
-Stock market trader written in Java
+Stock market trader written in Java. Uses Alpaca as the stock trading api.
 
 
 ## Dependencies
