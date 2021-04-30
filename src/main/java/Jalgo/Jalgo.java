@@ -13,7 +13,8 @@ public class Jalgo {
      * Main entry point of program.
      */
     public static void main (String[] args) {
-        
+        Configuration conf = new Configuration();
+        conf.checkForConfigFolder();
     }
 
 }
