@@ -28,10 +28,10 @@ task runJalgo (type: JavaExec) {
 
     classpath = sourceSets.main.runtimeClasspath
 
-    main = 'Jalgo.Jalgo'
+    main = 'dev.toddmartin.Jalgo.Jalgo'
     // capture config file
-    if (project.hasProperty("config")) {
-        args(project.getProperty('config'));
-    }
+    // if (project.hasProperty("config")) {
+        // args(project.getProperty('config'));
+    // }
 
 }
