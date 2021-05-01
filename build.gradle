@@ -30,6 +30,13 @@ task runJalgo (type: JavaExec) {
 
     main = 'dev.toddmartin.Jalgo.Jalgo'
     standardInput = System.in
+
+    if (project.hasProperty("ui")) {
+        args(project.getProperty('ui'));
+    } else {
+        args('gui');
+    }
+
     // capture config file
     // if (project.hasProperty("config")) {
         // args(project.getProperty('config'));
