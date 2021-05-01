@@ -40,11 +40,12 @@ public class Configuration {
     }
 
     // TODO
-    public void createConfFile (String apiKey, String secretKey) {
+    public static void createConfFile (String apiKey, String secretKey) {
         JSONObject obj = new JSONObject();
         obj.put("api_key", apiKey);
         obj.put("secret_key", secretKey);
-        try (PrintWriter fw = new PrintWriter(PATH + File.separator + ".conf")) {
+        try (PrintWriter fw = new PrintWriter(System.getProperty("user.home") + File.separator
+                                            + ".jalgo"  + File.separator + ".conf")) {
             fw.print(obj.toString());
         } catch (IOException e) {
             // catch here
