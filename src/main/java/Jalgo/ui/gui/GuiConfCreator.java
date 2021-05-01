@@ -15,6 +15,9 @@ public class GuiConfCreator implements ConfCreator, ActionListener {
     private JTextField apiKeyTextField;
     private JTextField secretKeyTextField;
 
+    /**
+     * Method that handles the dialog that allows a user to enter in credentials.
+     */
     public void newConfFile () {
         GridLayout gl = new GridLayout(3, 2);
         JDialog diag = new JDialog();
@@ -37,6 +40,9 @@ public class GuiConfCreator implements ConfCreator, ActionListener {
         diag.show();
     }
 
+    /**
+     * Action event for when the submit button is selected.
+     */
     public void actionPerformed (ActionEvent e) {
         String apiKey = apiKeyTextField.getText();
         String secretKey = secretKeyTextField.getText();

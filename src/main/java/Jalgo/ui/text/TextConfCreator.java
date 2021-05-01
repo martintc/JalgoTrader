@@ -7,6 +7,9 @@ import java.util.Scanner;
 
 public class TextConfCreator implements ConfCreator {
 
+    /**
+     * Code that implements the handling of getting in user input for credentials.
+     */
     public void newConfFile() {
         Scanner scan = new Scanner(System.in);
         String apiKey, secretKey;

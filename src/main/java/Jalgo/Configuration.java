@@ -39,7 +39,11 @@ public class Configuration {
             return false;
     }
 
-    // TODO
+    /**
+     * Creates a configuration file using json and credentials provided by user.
+     * @param apiKey api key from alpaca
+     * @param secretKey secret key from alpaca
+     */
     public static void createConfFile (String apiKey, String secretKey) {
         JSONObject obj = new JSONObject();
         obj.put("api_key", apiKey);
