@@ -2,6 +2,8 @@ package dev.toddmartin.Jalgo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import net.jacobpeterson.alpaca.AlpacaAPI;
 import net.jacobpeterson.alpaca.enums.api.EndpointAPIType;
@@ -39,7 +41,14 @@ public class Configuration {
 
     // TODO
     public void createConfFile (String apiKey, String secretKey) {
-        
+        JSONObject obj = new JSONObject();
+        obj.put("api_key", apiKey);
+        obj.put("secret_key", secretKey);
+        try (PrintWriter fw = new PrintWriter(PATH + File.separator + ".conf")) {
+            fw.print(obj.toString());
+        } catch (IOException e) {
+            // catch here
+        }
     }
 
     /**
