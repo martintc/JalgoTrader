@@ -1,5 +1,7 @@
 package dev.toddmartin.Jalgo;
 
+import dev.toddmartin.Jalgo.ui.ConfCreator;
+import dev.toddmartin.Jalgo.ui.text.TextConfCreator;
 import net.jacobpeterson.domain.alpaca.account.Account;
 import net.jacobpeterson.alpaca.AlpacaAPI;
 import net.jacobpeterson.alpaca.rest.exception.AlpacaAPIRequestException;
@@ -15,6 +17,10 @@ public class Jalgo {
     public static void main (String[] args) {
         Configuration conf = new Configuration();
         conf.checkForConfigFolder();
+        if (!conf.doesConfigFileExist()) {
+            ConfCreator cc = new TextConfCreator();
+            cc.newConfFile();
+        }
     }
 
 }
