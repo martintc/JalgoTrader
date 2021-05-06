@@ -7,7 +7,7 @@ public class TradeList {
     class Node {
         Node nextNode;
         Node prevNode;
-        float data;
+        double data;
     }
 
     private int size;
@@ -30,7 +30,7 @@ public class TradeList {
      * Add in a new data point of price to collection.
      * @param price Price that the stock last sold at
      */
-    public Node addNode (float price) {
+    public Node addNode (double price) {
         if (size == 0) {
             head.data = price;
             size++;
@@ -51,11 +51,11 @@ public class TradeList {
         }
     }
 
-    public float calculateMovingAverage () {
+    public double calculateMovingAverage () {
         if (size == 200) {
-            float fiftyMA = 0;
-            float twoHundredMA = 0;
-            float currentTotal = 0;
+            double fiftyMA = 0;
+            double twoHundredMA = 0;
+            double currentTotal = 0;
             Node currentNode = head;
             for (int i = 0; i < 200; i++) {
                 currentTotal = currentTotal + currentNode.data;
@@ -69,27 +69,31 @@ public class TradeList {
                 }
             }
             twoHundredMA = currentTotal / 200;
-            return fiftyMA - twoHundredMA;
+            return twoHundredMA - fiftyMA;
         } else {
-            float halfMA = 0;
-            float fullMA = 0;
-            float currentTotal = 0;
+            double halfMA = 0;
+            double fullMA = 0;
+            double currentTotal = 0;
             Node currentNode = head;
             for (int i = 0; i < size; i++) {
                 currentTotal = currentTotal + currentNode.data;
                 if (size > 1) {
                     if (i == (size/2)) {
-                        halfMA = currentTotal / 2;
+                        halfMA = currentTotal / (size/2);
                     } 
                 }
             }
             fullMA = currentTotal / size;
-            return halfMA - fullMA;
+            return fullMA - halfMA;
         }
     }
 
-    public float getLastPrice () {
+    public double getLastPrice () {
         return head.data;
+    }
+
+    public int getSize() {
+        return size;
     }
 
 }

@@ -4,9 +4,9 @@ import dev.toddmartin.Jalgo.ds.TradeList;
 
 public class ScalpingStrategy implements Strategy {
 
-    private float lastBuyPrice;
-    private float lastSellPrice;
-    private float lastTradePrice;
+    private double lastBuyPrice;
+    private double lastSellPrice;
+    private double lastTradePrice;
     private TradeList history;
 
     public ScalpingStrategy () {
@@ -15,17 +15,23 @@ public class ScalpingStrategy implements Strategy {
         history = new TradeList();
     }
 
-    public DecisionEnum evaluate (float price) {
+    public DecisionEnum evaluate (double price) {
         history.addNode(price);
+        System.out.println(history.calculateMovingAverage());
         if (lastBuyPrice == 0 && lastSellPrice == 0) {
             lastBuyPrice = price;
             return DecisionEnum.BUY;
         }
 
-        if (price < lastBuyPrice) {
+        if (price < lastSellPrice && lastBuyPrice != 0 && history.calculateMovingAverage() < 0) {
             lastSellPrice = price;
             lastBuyPrice = 0;
             return DecisionEnum.SELL;
+        }
+
+        if (price < lastBuyPrice && lastBuyPrice == 0) {
+            lastBuyPrice = price;
+            return DecisionEnum.BUY;
         }
 
         if (price > lastBuyPrice) {
@@ -35,6 +41,9 @@ public class ScalpingStrategy implements Strategy {
         }
 
         if (lastBuyPrice == 0 && price < lastSellPrice) {
+            if (history.calculateMovingAverage() < 0) {
+                return DecisionEnum.HOLD;
+            }
             lastBuyPrice = price;
             return DecisionEnum.BUY;
         }
