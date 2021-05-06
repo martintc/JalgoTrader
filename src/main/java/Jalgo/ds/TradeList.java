@@ -1,4 +1,4 @@
-package dev.toddmartin.Jalgo.ds.TradeList;
+package dev.toddmartin.Jalgo.ds;
 
 import java.util.List;
 
