@@ -3,6 +3,9 @@ package dev.toddmartin.Jalgo;
 import dev.toddmartin.Jalgo.ui.ConfCreator;
 import dev.toddmartin.Jalgo.ui.gui.GuiConfCreator;
 import dev.toddmartin.Jalgo.ui.text.TextConfCreator;
+import dev.toddmartin.Jalgo.strategy.Strategy;
+import dev.toddmartin.Jalgo.strategy.ScalpingStrategy;
+import dev.toddmartin.Jalgo.strategy.DecisionEnum;
 import java.time.ZonedDateTime;
 import net.jacobpeterson.abstracts.websocket.exception.WebsocketException;
 import net.jacobpeterson.alpaca.AlpacaAPI;
@@ -70,6 +73,7 @@ public class Jalgo {
         System.out.println(asset);
 
         MarketDataListener listener = null;
+        Strategy strat = new ScalpingStrategy();
 
         try {
 
@@ -77,11 +81,19 @@ public class Jalgo {
                                                      args[1].toUpperCase(),
                                                      MarketDataMessageType.TRADE
                                                      ) {
-            @Override
-                public void onStreamUpdate(MarketDataMessageType streamMessageType, MarketDataMessage streamMessage) {
+                    @Override
+                    public void onStreamUpdate(MarketDataMessageType streamMessageType, MarketDataMessage streamMessage) {
                     if (streamMessageType == MarketDataMessageType.TRADE) {
                         TradeMessage tradeMessage = (TradeMessage) streamMessage;
                         System.out.println("Price: " + tradeMessage.getPrice());
+                        DecisionEnum decision = strat.evaluate(tradeMessage.getPrice());
+                        if (decision == DecisionEnum.BUY) {
+                            System.out.println("BUY");
+                        } else if (decision == DecisionEnum.SELL) {
+                            System.out.println("SELL");
+                        } else if (decision == DecisionEnum.HOLD) {
+                            System.out.println("HOLD");
+                        }
                     }
                 }
             };
