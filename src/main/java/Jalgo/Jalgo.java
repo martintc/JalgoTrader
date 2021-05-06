@@ -12,6 +12,8 @@ import net.jacobpeterson.alpaca.enums.api.EndpointAPIType;
 import net.jacobpeterson.alpaca.enums.api.DataAPIType;
 import net.jacobpeterson.domain.alpaca.account.Account;
 import net.jacobpeterson.domain.alpaca.asset.Asset;
+import net.jacobpeterson.domain.alpaca.clock.Clock;
+import net.jacobpeterson.domain.alpaca.position.Position;
 import net.jacobpeterson.domain.alpaca.marketdata.realtime.MarketDataMessage;
 import net.jacobpeterson.domain.alpaca.marketdata.historical.quote.Quote;
 import net.jacobpeterson.alpaca.websocket.marketdata.listener.MarketDataListener;
@@ -25,6 +27,7 @@ public class Jalgo {
      * Main entry point of program.
      */
     public static void main (String[] args) {
+        Clock clock = null;
         Account acc = null;
         if (args.length < 1) {
             System.err.println("Need an argument for the interface type");
@@ -48,11 +51,13 @@ public class Jalgo {
         AlpacaAPI api = conf.getAccount();
         try {
             acc = api.getAccount();
+            clock = api.getClock();
         } catch (AlpacaAPIRequestException e) {
             System.err.println("Issue getting account, check network connction");
             System.exit(1); // exit program since account can not be gathered
         }
 
+        System.out.println(clock.getIsOpen());
         System.out.println("Account cash: " + acc.getCash());
         System.out.println("Portfolio value: " + acc.getPortfolioValue());
 
@@ -69,16 +74,16 @@ public class Jalgo {
         try {
 
             listener = new MarketDataListenerAdapter(
-                    args[1].toUpperCase(),
-                                                                            MarketDataMessageType.TRADE
-                                                         ) {
+                                                     args[1].toUpperCase(),
+                                                     MarketDataMessageType.TRADE
+                                                     ) {
             @Override
                 public void onStreamUpdate(MarketDataMessageType streamMessageType, MarketDataMessage streamMessage) {
-                if (streamMessageType == MarketDataMessageType.TRADE) {
-                    TradeMessage tradeMessage = (TradeMessage) streamMessage;
-                    System.out.println("Price: " + tradeMessage.getPrice());
+                    if (streamMessageType == MarketDataMessageType.TRADE) {
+                        TradeMessage tradeMessage = (TradeMessage) streamMessage;
+                        System.out.println("Price: " + tradeMessage.getPrice());
+                    }
                 }
-            }
             };
             api.addMarketDataStreamListener(listener);
             Thread.sleep(100);
@@ -88,6 +93,12 @@ public class Jalgo {
         } catch (InterruptedException ie) {
 
         }
+
+        // while(true) {
+        //     while (clock.getIsOpen()) {
+                
+        //     }
+        // }
 
     }
 
