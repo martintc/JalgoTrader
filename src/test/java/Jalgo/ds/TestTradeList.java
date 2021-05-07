@@ -55,7 +55,7 @@ public class TestTradeList {
         for (int i = 0; i < size; i++) {
             double tmp = r.nextDouble();
             fullCalc = fullCalc + tmp;
-            if (i < (size/2)) {
+            if (i <= (size/2)) {
                 halfCalc = halfCalc + tmp;
             }
             tl.addNode(tmp);
