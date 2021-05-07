@@ -13,6 +13,9 @@ import net.jacobpeterson.alpaca.rest.exception.AlpacaAPIRequestException;
 import net.jacobpeterson.alpaca.rest.exception.AlpacaAPIRequestException;
 import net.jacobpeterson.alpaca.enums.api.EndpointAPIType;
 import net.jacobpeterson.alpaca.enums.api.DataAPIType;
+import net.jacobpeterson.alpaca.enums.order.OrderSide;
+import net.jacobpeterson.alpaca.enums.order.OrderType;
+import net.jacobpeterson.alpaca.enums.order.OrderTimeInForce;
 import net.jacobpeterson.domain.alpaca.account.Account;
 import net.jacobpeterson.domain.alpaca.asset.Asset;
 import net.jacobpeterson.domain.alpaca.clock.Clock;
@@ -87,12 +90,57 @@ public class Jalgo {
                         TradeMessage tradeMessage = (TradeMessage) streamMessage;
                         System.out.println("Price: " + tradeMessage.getPrice());
                         DecisionEnum decision = strat.evaluate(tradeMessage.getPrice());
-                        if (decision == DecisionEnum.BUY) {
-                            System.out.println("BUY");
-                        } else if (decision == DecisionEnum.SELL) {
-                            System.out.println("SELL");
-                        } else if (decision == DecisionEnum.HOLD) {
-                            System.out.println("HOLD");
+                        try {
+                            if (decision == DecisionEnum.BUY) {
+                                System.out.println("BUY");
+                                double cash = Double.parseDouble(api.getAccount().getCash());
+                                // api.requestNewNotionalMarketOrder(args[1].toUpperCase(), cash, OrderSide.BUY);
+                                api.requestNewOrder(args[1].toUpperCase(), // symbol
+                                                    1d, //quantity
+                                                    null, // notional amount
+                                                    OrderSide.BUY,
+                                                    OrderType.MARKET,
+                                                    OrderTimeInForce.DAY,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null
+                                                    );
+                                Thread.sleep(10);
+                            } else if (decision == DecisionEnum.SELL) {
+                                System.out.println("SELL");
+                                api.requestNewOrder(args[1].toUpperCase(), // symbol
+                                                    1d, //quantity
+                                                    null, // notional amount
+                                                    OrderSide.SELL,
+                                                    OrderType.MARKET,
+                                                    OrderTimeInForce.DAY,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null
+                                                    );
+                                Thread.sleep(10);
+                            } else if (decision == DecisionEnum.HOLD) {
+                                System.out.println("HOLD");
+                            }
+                        } catch (AlpacaAPIRequestException aei) {
+                            System.out.println("Error in making trade");
+                            aei.printStackTrace();
+                        } catch (InterruptedException ie) {
+                            
                         }
                     }
                 }
