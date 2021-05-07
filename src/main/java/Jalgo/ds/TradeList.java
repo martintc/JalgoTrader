@@ -77,12 +77,11 @@ public class TradeList {
             Node currentNode = head;
             for (int i = 0; i < size; i++) {
                 currentTotal = currentTotal + currentNode.data;
-                if (size > 1) {
-                    if (i == (size/2)) {
-                        halfMA = currentTotal / (size/2);
-                    } 
+                if (i <= (size/2)) {
+                    halfMA = halfMA + currentNode.data;
                 }
             }
+            halfMA = halfMA / (size/2);
             fullMA = currentTotal / size;
             return fullMA - halfMA;
         }
