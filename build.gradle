@@ -45,3 +45,8 @@ task runJalgo (type: JavaExec) {
     // }
 
 }
+
+task backTest (type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = "dev.toddmartin.Jalgo.strategy.BackTest"
+}
