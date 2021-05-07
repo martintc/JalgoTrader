@@ -20,7 +20,7 @@ public class ScalpingStrategy implements Strategy {
     public DecisionEnum evaluate (double price) {
         history.addNode(price);
         // System.out.println(history.calculateMovingAverage());
-        if (lastBuyPrice == 0 && lastSellPrice == 0) {
+        if (lastBuyPrice == 0 && lastSellPrice == 0 && !isOwned) {
             lastBuyPrice = price;
             isOwned = true;
             return DecisionEnum.BUY;
