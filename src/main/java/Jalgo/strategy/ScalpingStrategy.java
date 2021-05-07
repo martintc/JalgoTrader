@@ -8,45 +8,37 @@ public class ScalpingStrategy implements Strategy {
     private double lastSellPrice;
     private double lastTradePrice;
     private TradeList history;
+    private boolean isOwned;
 
     public ScalpingStrategy () {
         lastBuyPrice = 0;
         lastSellPrice = 0;
         history = new TradeList();
+        isOwned = false;
     }
 
     public DecisionEnum evaluate (double price) {
         history.addNode(price);
-        System.out.println(history.calculateMovingAverage());
+        // System.out.println(history.calculateMovingAverage());
         if (lastBuyPrice == 0 && lastSellPrice == 0) {
             lastBuyPrice = price;
+            isOwned = true;
             return DecisionEnum.BUY;
         }
 
-        if (price < lastSellPrice && lastBuyPrice != 0 && history.calculateMovingAverage() < 0) {
+        if (price > lastBuyPrice && isOwned) {
             lastSellPrice = price;
-            lastBuyPrice = 0;
+            isOwned = false;
             return DecisionEnum.SELL;
         }
 
-        if (price < lastBuyPrice && lastBuyPrice == 0) {
+        if (lastSellPrice != 0 && !isOwned && price < lastSellPrice) {
             lastBuyPrice = price;
+            isOwned = true;
             return DecisionEnum.BUY;
         }
 
-        if (price > lastBuyPrice) {
-            lastSellPrice = price;
-            lastBuyPrice = 0;
-            return DecisionEnum.SELL;
-        }
 
-        if (lastBuyPrice == 0 && price < lastSellPrice) {
-            if (history.calculateMovingAverage() < 0) {
-                return DecisionEnum.HOLD;
-            }
-            lastBuyPrice = price;
-            return DecisionEnum.BUY;
-        }
 
         return DecisionEnum.HOLD;
     }
