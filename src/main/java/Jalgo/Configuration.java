@@ -91,7 +91,7 @@ public class Configuration {
         String secretKey = "";
         apiKey = obj.getString("api_key");
         secretKey = obj.getString("secret_key");
-        return new AlpacaAPI(apiKey, secretKey, EndpointAPIType.LIVE, DataAPIType.IEX);
+        return new AlpacaAPI(apiKey, secretKey, EndpointAPIType.PAPER, DataAPIType.IEX);
     }
 
 
